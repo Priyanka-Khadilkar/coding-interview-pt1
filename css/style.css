@@ -1,0 +1,69 @@
+html{
+    box-sizing: border-box;
+}
+
+*, *::after, *::before{
+    box-sizing: inherit;
+}
+
+.page-wrapper{
+	max-width : 1200px;
+	margin: 0 auto;	
+}   
+
+.main-frame{
+   display: flex;
+   margin: 10px;
+   padding: 2px;
+}
+
+.sub-frame{
+    position: relative;
+    border-width: 1px;
+    border-color: black;
+    border-style: solid;
+    width: 400px;
+    padding: 5px;
+    margin: 10px;
+    
+}
+
+.profile-pic{
+    max-height: 150px;
+    max-width: 123px;
+    border-radius: 50%;
+    margin-left: 122px;
+    margin-top: 67px;
+    margin-bottom: 10px;
+}
+
+.role-label{
+    color: black;
+    padding: 5px;
+    margin-left: 5px;
+    margin-top: 5px;
+}
+
+.main-role-label{
+    padding: 5px; 
+}
+
+.name{
+    font-size: 22px;
+    font-weight: 500;
+}
+
+.main-name-div{
+    text-align: center;
+    margin-bottom: 11px;
+}
+
+.crown{
+    position: absolute;
+    right: 13px;
+    top: 6px;
+}
+
+.bio{
+    padding: 10px;
+}

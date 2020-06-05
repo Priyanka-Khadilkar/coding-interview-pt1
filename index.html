@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+    <header>
+    </header>
+    <main class="page-wrapper">
+        <div id="employeeDetailsDiv" class="main-frame">
+        </div>
+    </main>
+    <footer>
+    </footer>
+    <script>
+        //Declaring  script here as i do not have much in HTML
+        //Main div for the displaying employees data
+        let employeeDetailsDiv = document.getElementById("employeeDetailsDiv");
+
+        //Ajax get call function - Javascript
+        function ajax_get(url, callback) {
+            let xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    console.log('responseText:' + xmlhttp.responseText);
+                    try {
+                        var data = JSON.parse(xmlhttp.responseText);
+                    } catch (err) {
+                        console.log(err.message + " in " + xmlhttp.responseText);
+                        return;
+                    }
+                    callback(data);
+                }
+            };
+            xmlhttp.open("GET", url, true);
+            xmlhttp.send();
+        }
+
+        //Ajax call for fetching all employees details
+        ajax_get('http://sandbox.bittsdevelopment.com/code1/fetchemployees.php', function (employees) {
+            //interate the employees records
+            for (let employee in employees) {
+                //div of employee details
+                var employeeDiv = document.createElement("div");
+                employeeDiv.classList.add("sub-frame");
+
+                //Check if employee is featured or not and if it's featured then put "crown" symbol
+                if (employees[employee].employeeisfeatured == 1) {
+                    var crownDiv = document.createElement("div");
+                    crownDiv.classList.add("crown");
+                    crownDiv.innerHTML = "&#x1F451;";
+                    employeeDiv.appendChild(crownDiv);
+                }
+
+                //Image of employee
+                var employeeImg = document.createElement("img");
+                employeeImg.classList.add("profile-pic");
+                employeeImg.src = "http://sandbox.bittsdevelopment.com/code1/employeepics/" + employees[employee].employeeid + ".jpg";
+                employeeDiv.appendChild(employeeImg);
+
+                //Employee name div
+                var employeeNameDiv = document.createElement("div");
+                employeeNameDiv.classList.add("main-name-div");
+
+                //Employee name span
+                var employeeNameSpan = document.createElement("span");
+                employeeNameSpan.classList.add("name");
+                employeeNameSpan.innerHTML = employees[employee].employeefname + ' ' + employees[employee].employeelname;
+                employeeNameDiv.appendChild(employeeNameSpan);
+                employeeDiv.appendChild(employeeNameDiv);
+
+                //Employee bio div
+                var employeeBioDiv = document.createElement("div");
+                employeeBioDiv.classList.add("bio");
+                employeeBioDiv.innerHTML = employees[employee].employeebio;
+                employeeDiv.appendChild(employeeBioDiv);
+
+                //Employee role div
+                var employeeRoleDiv = document.createElement("div");
+                employeeRoleDiv.classList.add("main-role-label");
+
+                //bind employee roles
+                employees[employee].roles.forEach(function (obj) {
+                    //Employee role span
+                    var employeeRoleSpan = document.createElement("span");
+                    employeeRoleSpan.classList.add("role-label");
+                    employeeRoleSpan.style.background = obj.rolecolor;
+                    if (obj.rolecolor == "#000000") {
+                        employeeRoleSpan.style.color = "#FFFFFF";
+                    }
+                    employeeRoleSpan.innerHTML = obj.rolename;
+                    employeeRoleDiv.appendChild(employeeRoleSpan);
+                });
+
+                //append employee roles
+                employeeDiv.appendChild(employeeRoleDiv);
+
+                //Append emplyee detail to the employee list div
+                employeeDetailsDiv.appendChild(employeeDiv);
+            }
+
+        });
+
+    </script>
+
+</body>
+
+</html>
